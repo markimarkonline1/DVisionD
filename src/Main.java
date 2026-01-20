@@ -1,3 +1,5 @@
+import dao.FilmeDAOImpl;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.io.IOException;
@@ -16,7 +18,7 @@ public class Main extends JFrame {
 
         public Console() {
             frame = new JFrame();
-            final JTextArea textArea = new JTextArea(28, 100);
+            final JTextArea textArea = new JTextArea(28, 120);
             textArea.setBackground(Color.BLACK);
             textArea.setForeground(Color.LIGHT_GRAY);
             textArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 16));
@@ -53,7 +55,12 @@ public class Main extends JFrame {
                                 + launcher.getInsets().right, launcher.getY());
                 System.out.println("Started Launcher...");
                 System.out.println("Hello");
-                System.out.println(new String(new char[50]).replace("", "\r\n"));
+
+ // ---------------- My Programm --------------------------------------------
+                FilmeDAOImpl dao = new FilmeDAOImpl();
+                System.out.println(dao.findAll());
+
+              //  System.out.println(new String(new char[50]).replace("", "\r\n"));
             }
 
 

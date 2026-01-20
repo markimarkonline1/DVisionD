@@ -1,5 +1,7 @@
 package model;
 
+import java.sql.Array;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -17,6 +19,18 @@ public class Film
 
 
     // ---------------- Constructors --------------------------
+
+    public Film(){
+        this.id = -100;
+        this.filmname = "";
+        this.fsk = -100;
+        this.dauer = -100;
+        this.dreid = false;
+        this.beschreibung = "";
+        this.erscheinungsjahr = -100;
+        this.genres = new ArrayList<String>();
+        this.sprachen = new ArrayList<String>();
+    }
 
     public Film(int id, String filmname, int fsk, int dauer, boolean dreid, String beschreibung, int erscheinungsjahr, List<String> genres, List<String> sprachen)
     {
@@ -157,16 +171,17 @@ public class Film
     @Override
     public String toString()
     {
-        return "Film{" +
-                "id=" + id +
-                ", filmname='" + filmname + '\'' +
-                ", fsk=" + fsk +
-                ", dauer=" + dauer +
-                ", dreid=" + dreid +
-                ", beschreibung='" + beschreibung + '\'' +
-                ", erscheinungsjahr=" + erscheinungsjahr +
-                ", genres=" + genres +
-                ", sprachen=" + sprachen +
-                '}';
+        return "Film " +
+                "id = " + id +
+                "\nFilmname = " + filmname +
+                "\nFskv = " + fsk +
+                "\nDauer = " + dauer +
+                "\n3d = " + dreid +
+                "\nBeschreibung = " + beschreibung +
+                "\nEerscheinungsjahr = " + erscheinungsjahr +
+                "\nGenres = " + genres +
+                "\nSprachen = " + sprachen +
+                "\n\n"
+                ;
     }
 }

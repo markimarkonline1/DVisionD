@@ -9,7 +9,7 @@ public class DbConnect
     private Connection con;
     private static final String HOST = "jdbc:mysql://127.0.0.1:3306/db_filme";
     private static final String USERNAME = "DVisionD";
-    private static final String PASSWORD = "";
+    private static final String PASSWORD = "movie";
 
     private static DbConnect instance = null;
     private DbConnect()
