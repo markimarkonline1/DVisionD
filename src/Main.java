@@ -58,7 +58,7 @@ public class Main extends JFrame {
 
  // ---------------- My Programm --------------------------------------------
                 FilmeDAOImpl dao = new FilmeDAOImpl();
-                System.out.println(dao.findAll());
+                System.out.println(dao.findMovieById(4));
 
               //  System.out.println(new String(new char[50]).replace("", "\r\n"));
             }

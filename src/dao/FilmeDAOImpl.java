@@ -5,9 +5,11 @@ import model.Film;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class FilmeDAOImpl implements FilmeDAO
 {
@@ -30,7 +32,21 @@ public class FilmeDAOImpl implements FilmeDAO
     @Override
     public Film findMovieById(int id)
     {
-        return null;
+        var filmlist = new ArrayList<Film>();
+        try(var ps = con.prepareStatement("SELECT * FROM t_filme WHERE Id=?"))
+        {
+
+            ps.setInt(1,id);
+            buildMovie(ps,filmlist);
+        } catch (SQLException e)
+        {
+            throw new RuntimeException(e);
+        }
+        if(filmlist.isEmpty()){
+            System.out.println("Film nicht gefunden");
+            return null;
+        }else{
+        return filmlist.getFirst();}
     }
 
     @Override
