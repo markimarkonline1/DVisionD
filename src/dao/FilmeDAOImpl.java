@@ -5,15 +5,14 @@ import model.Film;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+
 
 public class FilmeDAOImpl implements FilmeDAO
 {
-    private Connection con = DbConnect.getInstance().connection();
+    private final Connection con = DbConnect.getInstance().connection();
 
     @Override
     public List<Film> findAll(){
