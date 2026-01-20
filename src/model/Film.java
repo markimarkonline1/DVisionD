@@ -174,11 +174,11 @@ public class Film
         return "Film " +
                 "id = " + id +
                 "\nFilmname = " + filmname +
-                "\nFskv = " + fsk +
-                "\nDauer = " + dauer +
+                "\nFsk = " + fsk + " Jahre" +
+                "\nDauer = " + dauer + "min" +
                 "\n3d = " + dreid +
                 "\nBeschreibung = " + beschreibung +
-                "\nEerscheinungsjahr = " + erscheinungsjahr +
+                "\nErscheinungsjahr = " + erscheinungsjahr +
                 "\nGenres = " + genres +
                 "\nSprachen = " + sprachen +
                 "\n\n"

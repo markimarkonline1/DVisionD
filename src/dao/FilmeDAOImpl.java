@@ -52,7 +52,22 @@ public class FilmeDAOImpl implements FilmeDAO
     @Override
     public Film findMovieByName(String name)
     {
-        return null;
+        var filmlist = new ArrayList<Film>();
+
+        try
+        {
+            var ps = con.prepareStatement("SELECT * FROM t_filme WHERE Name LIKE ?");
+            ps.setString(1, "%" + name + "%");
+            buildMovie(ps, filmlist);
+        } catch (SQLException e)
+        {
+            throw new RuntimeException(e);
+        }
+        if(filmlist.isEmpty()){
+            System.out.println("Film nicht gefunden");
+            return null;
+        }else{
+            return filmlist.getFirst();}
     }
 
 
