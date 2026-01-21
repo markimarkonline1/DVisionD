@@ -10,8 +10,9 @@ public interface FilmeDAO
     Film findMovieById(int id);
     Film findMovieByName(String name);
 
-    boolean addMovieSimple(String name);
-    boolean finishSimpleMovieEntry(int id,int fsk, int dauer, boolean dreid, String beschreibung,int erscheinungshahr);
+    boolean addMovieSimple(String name);        //TODO return MovieId
+    boolean finishSimpleMovieEntry(int id,int fsk, int dauer, boolean dreid, String beschreibung,int erscheinungsjahr,List<String> genres,List<String> sprachen);
+    boolean addMovie(String name,int fsk, int dauer, boolean dreid, String beschreibung,int erscheinungsjahr,List<String> genres,List<String> sprachen);
 
     boolean updateFsk(int id, int fsk);
     boolean updateDauer(int id, int min);

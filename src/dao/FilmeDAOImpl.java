@@ -110,20 +110,55 @@ public class FilmeDAOImpl implements FilmeDAO
     }
             // TODO add genre & sprachen
     @Override
-    public boolean finishSimpleMovieEntry(int id, int fsk, int dauer, boolean dreid, String beschreibung, int erscheinungsjahr)
+    public boolean finishSimpleMovieEntry(int id, int fsk, int dauer, boolean dreid, String beschreibung, int erscheinungsjahr,List<String>genres,List<String>sprachen)
     {
         Film film = findMovieById(id);
         if(film == null){
             System.out.println("Film nicht gefunden");
             return false;
         }
-        film.setFsk(fsk);
-        film.setDauer(dauer);
-        film.setDreid(dreid);
-        film.setBeschreibung(beschreibung);
-        film.setErscheinungsjahr(erscheinungsjahr);
 
+        String sql = """ 
+                UPDATE t_filme 
+                SET Fsk = ?, Dauer = ?, `3d` = ?, Beschreibung = ?, Jahr = ? 
+                WHERE Id = ? """;
+        try (var ps = con.prepareStatement(sql))
+        {
+            ps.setInt(1, fsk);
+            ps.setInt(2, dauer);
+            ps.setBoolean(3, dreid);
+            ps.setString(4, beschreibung);
+            ps.setInt(5, erscheinungsjahr);
+            ps.setInt(6, id);
+            int n = ps.executeUpdate();
+            if(n==0){
+                System.out.println("Fehler beim updaten");
+                return false;
+            }
+        }catch (SQLException e)
+        { throw new RuntimeException(e); }
+
+        int genreResult = updateGenres(id, genres.toArray(new String[0]));
+        if (genreResult == 0)
+        { System.out.println("Genres konnten nicht aktualisiert werden");
+            return false;
+        }
+        int sprachResult = updateLanguages(id, sprachen.toArray(new String[0]));
+        if (sprachResult == 0)
+        { System.out.println("Sprachen konnten nicht aktualisiert werden");
+            return false;
+        }
         return true;
+    }
+
+    @Override
+    public boolean addMovie(String name, int fsk, int dauer, boolean dreid, String beschreibung, int erscheinungsjahr, List<String> genres, List<String> sprachen)
+    {
+        boolean start,finish;
+        start = addMovieSimple(name); //TODO return MovieId
+        Film f = findMovieByName(name);
+        finish = finishSimpleMovieEntry(f.getId(),fsk,dauer,dreid,beschreibung,erscheinungsjahr,genres,sprachen);
+        return start && finish;
     }
 
     @Override
@@ -295,9 +330,11 @@ public class FilmeDAOImpl implements FilmeDAO
     @Override
     public int updateLanguages(int id, String... l)
     {
+        // ------------ Sprachen in Ids übersetzen -------------------
+
         List<String> languageList = List.of(l);
         ArrayList<Integer> ids = new ArrayList<>();
-        // 1. Sprach-Namen → IDs auflösen
+
         for (String lang : languageList)
         {
             try (var ps = con.prepareStatement("SELECT id FROM t_sprachen WHERE sprache = ?"))
@@ -316,14 +353,14 @@ public class FilmeDAOImpl implements FilmeDAO
             { throw new RuntimeException(e); }
         }
 
-        // 2. Alte Zuordnungen löschen
+        // --------------- Alte Spracheinträge löschen -------------------
         try (var ps = con.prepareStatement( "DELETE FROM vt_filme_sprachen WHERE fk_film = ?"))
         { ps.setInt(1, id);
             ps.executeUpdate();
         } catch (SQLException e)
         { throw new RuntimeException(e); }
 
-        // 3. Neue Zuordnungen einfügen
+        // --------------- Neue Sprachen einfügen -----------------------
         int inserted = 0;
         for (int langId : ids)
         {
