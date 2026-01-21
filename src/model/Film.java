@@ -20,13 +20,13 @@ public class Film
     // ---------------- Constructors --------------------------
 
     public Film(){
-        this.id = -100;
+        this.id = -1;
         this.filmname = "";
-        this.fsk = -100;
-        this.dauer = -100;
+        this.fsk = -1;
+        this.dauer = -1;
         this.dreid = false;
         this.beschreibung = "";
-        this.erscheinungsjahr = -100;
+        this.erscheinungsjahr = -1;
         this.genres = new ArrayList<String>();
         this.sprachen = new ArrayList<String>();
     }

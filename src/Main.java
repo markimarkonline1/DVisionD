@@ -61,8 +61,26 @@ public class Main extends JFrame {
 
                // System.out.println(dao.findMovieByName("Alien"));
 
-                System.out.println(dao.addMovieSimple("Avatar: Fire and Ash"));
+                //System.out.println(dao.addMovieSimple("Avatar: Fire and Ash"));
               //  System.out.println(new String(new char[50]).replace("", "\r\n"));
+                //System.out.println(dao.checkFsk(18));
+                System.out.println(dao.updateBeschreibung(3,"Während die Familie mit ihrer Trauer umgehen und Spider in Sicherheit bringen muss, werden sie mit einem neuen Klan konfrontiert, der von der hitzköpfigen Varang angeführt wird. Zudem versammelt die RDA nach ihrer Niederlage neue Kräfte."));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             }
 
 

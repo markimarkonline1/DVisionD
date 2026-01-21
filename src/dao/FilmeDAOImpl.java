@@ -36,7 +36,6 @@ public class FilmeDAOImpl implements FilmeDAO
         var filmlist = new ArrayList<Film>();
         try(var ps = con.prepareStatement("SELECT * FROM t_filme WHERE Id=?"))
         {
-
             ps.setInt(1,id);
             buildMovie(ps,filmlist);
         } catch (SQLException e)
@@ -133,44 +132,140 @@ public class FilmeDAOImpl implements FilmeDAO
     @Override
     public boolean updateFsk(int id, int fsk)
     {
-        return false;
+        if (!checkFsk(fsk))
+        {
+            System.out.println("Gib eine gültige Altersfreigabe ein");
+            return false;
+        }
+            try (var ps = con.prepareStatement("UPDATE t_filme SET Fsk = ? WHERE Id = ?"))
+            {
+                ps.setInt(1, fsk);
+                ps.setInt(2, id);
+                int n = ps.executeUpdate();
+                if(n==1)
+                {
+                    return true;
+                } else
+                {
+                    System.out.println("Film nicht gefunden");
+                    return false;
+                }
+
+            }catch (SQLException e)
+            {
+                throw new RuntimeException(e);
+            }
+
     }
 
     @Override
     public boolean updateDauer(int id, int min)
     {
-        return false;
+        try(var ps = con.prepareStatement("UPDATE t_filme SET Dauer = ? WHERE Id = ?"))
+        {
+            ps.setInt(1,min);
+            ps.setInt(2,id);
+            int n = ps.executeUpdate();
+            if(n==1){
+                return true;
+            }else{
+                System.out.println("Film nicht gefunden");
+                return false;
+            }
+
+        } catch (SQLException e)
+        {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public boolean updatedreid(int id, boolean dreid)
     {
-        return false;
+        try(var ps = con.prepareStatement("UPDATE t_filme SET 3d = ? WHERE Id = ?"))
+        {
+            ps.setBoolean(1,dreid);
+            ps.setInt(2,id);
+            int n = ps.executeUpdate();
+            if(n==1){
+                return true;
+            }else{
+                System.out.println("Film nicht gefunden");
+                return false;
+            }
+
+        } catch (SQLException e)
+        {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public boolean updateBeschreibung(int id, String b)
     {
-        return false;
+        try(var ps = con.prepareStatement("UPDATE t_filme SET Beschreibung = ? WHERE Id = ?"))
+        {
+            ps.setString(1,b);
+            ps.setInt(2,id);
+            int n = ps.executeUpdate();
+            if(n==1){
+                return true;
+            }else{
+                System.out.println("Film nicht gefunden");
+                return false;
+            }
+
+        } catch (SQLException e)
+        {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public boolean updateRelease(int id, int jahr)
     {
-        return false;
+        if(jahr < 1895 || jahr > java.time.Year.now().getValue()){
+            System.out.println("Gib ein gültiges ErscheinungsJahr ein");
+            return false;
+        }
+
+        try(var ps = con.prepareStatement("UPDATE t_filme SET Fsk = ? WHERE Id = ?"))
+        {
+            ps.setInt(1,jahr);
+            ps.setInt(2,id);
+            int n = ps.executeUpdate();
+            if(n==1){
+                return true;
+            }else{
+                System.out.println("Film nicht gefunden");
+                return false;
+            }
+
+        } catch (SQLException e)
+        {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
-    public boolean checkFsk(int Freigabe)
+    public boolean checkFsk(int jahr)
     {
-        return false;
+        try(var ps = con.prepareStatement("SELECT 1 FROM t_fsk WHERE Jahr = ?"))
+        {
+            ps.setInt(1,jahr);
+            var rs = ps.executeQuery();
+            if(rs.next()){
+                return true;
+
+            }else{
+                return false;
+            }
+        } catch (SQLException e)
+        {
+            throw new RuntimeException(e);
+        }
     }
 
-    @Override
-    public boolean checkErscheinungsjahr(int j)
-    {
-        return false;
-    }
 
     @Override
     public List<String> getGenres(int id)

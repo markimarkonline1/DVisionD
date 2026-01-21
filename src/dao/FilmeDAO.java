@@ -20,9 +20,7 @@ public interface FilmeDAO
     boolean updateRelease(int id, int jahr);
 
 
-    boolean checkFsk(int Freigabe);
-    boolean checkErscheinungsjahr(int j);
-
+    boolean checkFsk(int jahr);
     List<String>getGenres(int id);
     List<String>getLanguages(int id);
 }
