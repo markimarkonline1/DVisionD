@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.List;
+import java.util.Scanner;
 
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
@@ -54,12 +55,24 @@ public class Main extends JFrame {
                 console.getFrame().setLocation(
                         launcher.getX() + launcher.getWidth()
                                 + launcher.getInsets().right, launcher.getY());
-                System.out.println("Started Launcher...");
-                System.out.println("Hello");
+               // System.out.println("Started Launcher...");
+               // System.out.println("Hello");
 
  // ---------------- My Programm --------------------------------------------
                 FilmeDAOImpl dao = new FilmeDAOImpl();
-                System.out.println(dao.findMovieById(5));
+                Scanner scanner = new Scanner(System.in);
+
+                System.out.println(" --- DVisionD ---");
+                System.out.println("1) Film nach Name suchen");
+                System.out.println("2) Film nach Id suchen");
+
+                int choice = Integer.parseInt(scanner.nextLine());
+                //System.out.println(choice);
+
+
+
+
+               // System.out.println(dao.findMovieById(5));
               // System.out.println(dao.findMovieByName("Inception"));
 
                // System.out.println(dao.addMovieSimple("Tyler Rake Extraction"));
@@ -74,17 +87,8 @@ public class Main extends JFrame {
 
                // System.out.println(dao.finishSimpleMovieEntry(4,12,148,false,"folgt...",2010, List.of("Action","Fantasy"),List.of("Englisch","Deutsch","Spanisch")));
                 //System.out.println(dao.finishSimpleMovieEntry(5,18,118,false,"Ein indischer Geschäftsmann rekrutiert einen Söldner, um seinen entführten Sohn zu finden.",2020,List.of("Action","Thriller"),List.of("Englisch","Deutsch")));
-                System.out.println(dao.addMovie("Tyler Rake Extraction 2",18,123,false,"Nachdem Tyler Rake seine schweren Wunden von seinem Einsatz in Dhaka, Bangladesch, nur knapp überlebt hat, ist er wieder da und sein Team ist bereit für den nächsten Einsatz.",2023,List.of("Action","Thriller"),List.of("Englisch","Deutsch")));
-                System.out.println(dao.findMovieById(6));
-
-
-
-
-
-
-
-
-
+                //System.out.println(dao.addMovie("Tyler Rake Extraction 2",18,123,false,"Nachdem Tyler Rake seine schweren Wunden von seinem Einsatz in Dhaka, Bangladesch, nur knapp überlebt hat, ist er wieder da und sein Team ist bereit für den nächsten Einsatz.",2023,List.of("Action","Thriller"),List.of("Englisch","Deutsch")));
+                //System.out.println(dao.findMovieById(6));
 
 
 
