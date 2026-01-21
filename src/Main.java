@@ -59,8 +59,9 @@ public class Main extends JFrame {
  // ---------------- My Programm --------------------------------------------
                 FilmeDAOImpl dao = new FilmeDAOImpl();
 
-                System.out.println(dao.findMovieByName("Alien"));
+               // System.out.println(dao.findMovieByName("Alien"));
 
+                System.out.println(dao.addMovieSimple("Avatar: Fire and Ash"));
               //  System.out.println(new String(new char[50]).replace("", "\r\n"));
             }
 
