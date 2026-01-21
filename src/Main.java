@@ -58,14 +58,16 @@ public class Main extends JFrame {
 
  // ---------------- My Programm --------------------------------------------
                 FilmeDAOImpl dao = new FilmeDAOImpl();
-
-               // System.out.println(dao.findMovieByName("Alien"));
+                //System.out.println(dao.findMovieById(1));
+               System.out.println(dao.findMovieByName("Ava"));
 
                 //System.out.println(dao.addMovieSimple("Avatar: Fire and Ash"));
               //  System.out.println(new String(new char[50]).replace("", "\r\n"));
                 //System.out.println(dao.checkFsk(18));
-                System.out.println(dao.updateBeschreibung(3,"Während die Familie mit ihrer Trauer umgehen und Spider in Sicherheit bringen muss, werden sie mit einem neuen Klan konfrontiert, der von der hitzköpfigen Varang angeführt wird. Zudem versammelt die RDA nach ihrer Niederlage neue Kräfte."));
-
+               // System.out.println(dao.updateBeschreibung(3,"Während die Familie mit ihrer Trauer umgehen und Spider in Sicherheit bringen muss, werden sie mit einem neuen Klan konfrontiert, der von der hitzköpfigen Varang angeführt wird. Zudem versammelt die RDA nach ihrer Niederlage neue Kräfte."));
+               // System.out.println(dao.updateRelease(3,2027));
+               // System.out.println(dao.updateFsk(3,12));
+                // System.out.println(dao.updateDauer(3,197));
 
 
 

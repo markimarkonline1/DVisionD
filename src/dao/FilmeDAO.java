@@ -21,6 +21,6 @@ public interface FilmeDAO
 
 
     boolean checkFsk(int jahr);
-    List<String>getGenres(int id);
+    List<String> getGenres(int id);
     List<String>getLanguages(int id);
 }

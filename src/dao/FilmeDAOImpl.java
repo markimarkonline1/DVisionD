@@ -229,7 +229,7 @@ public class FilmeDAOImpl implements FilmeDAO
             return false;
         }
 
-        try(var ps = con.prepareStatement("UPDATE t_filme SET Fsk = ? WHERE Id = ?"))
+        try(var ps = con.prepareStatement("UPDATE t_filme SET Jahr = ? WHERE Id = ?"))
         {
             ps.setInt(1,jahr);
             ps.setInt(2,id);
@@ -267,20 +267,60 @@ public class FilmeDAOImpl implements FilmeDAO
     }
 
 
-    @Override
+
     public List<String> getGenres(int id)
     {
-        return List.of();
+        List<String> genres = new ArrayList<>();
+        String sql = """
+                        SELECT t_genres.Genre 
+                        FROM vt_filme_genres 
+                        JOIN t_genres ON vt_filme_genres.genre_id = t_genres.id 
+                        WHERE vt_filme_genres.film_id = ?
+                        """;
+        try(var ps = con.prepareStatement(sql))
+        {
+            ps.setInt(1, id);
+            var rs = ps.executeQuery();
+            while (rs.next())
+            {
+                genres.add(rs.getString("Genre"));
+            }
+        } catch (SQLException e)
+        {
+            throw new RuntimeException(e);
+        }
+
+        return genres;
     }
 
     @Override
     public List<String> getLanguages(int id)
     {
-        return List.of();
+        List<String> sprachen = new ArrayList<>();
+        String sql = """
+        SELECT s.sprache
+        FROM vt_filme_sprachen fs
+        JOIN t_sprachen s ON fs.fk_sprache = s.id
+        WHERE fs.fk_film = ?
+        """;
+        try(var ps = con.prepareStatement(sql))
+        {
+            ps.setInt(1, id);
+            var rs = ps.executeQuery();
+            while (rs.next())
+            {
+                sprachen.add(rs.getString("sprache"));
+            }
+        } catch (SQLException e)
+        {
+            throw new RuntimeException(e);
+        }
+        return sprachen;
     }
 
+
     //TODO add genre & sprachen
-    private static void buildMovie(PreparedStatement ps, List<Film> filme) throws SQLException
+    private void buildMovie(PreparedStatement ps, List<Film> filme) throws SQLException
     {
         var rs = ps.executeQuery();
         while(rs.next()){
@@ -292,6 +332,8 @@ public class FilmeDAOImpl implements FilmeDAO
             f.setDreid((rs.getBoolean("3d")));
             f.setBeschreibung(rs.getString("Beschreibung"));
             f.setErscheinungsjahr(rs.getInt("Jahr"));
+            f.setGenres(getGenres(f.getId()));
+            f.setSprachen(getLanguages(f.getId()));
 
             filme.add(f);
         }
