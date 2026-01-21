@@ -59,7 +59,7 @@ public class Main extends JFrame {
  // ---------------- My Programm --------------------------------------------
                 FilmeDAOImpl dao = new FilmeDAOImpl();
                 //System.out.println(dao.findMovieById(1));
-               System.out.println(dao.findMovieByName("Ava"));
+               System.out.println(dao.findMovieByName("Alien"));
 
                 //System.out.println(dao.addMovieSimple("Avatar: Fire and Ash"));
               //  System.out.println(new String(new char[50]).replace("", "\r\n"));
@@ -68,6 +68,8 @@ public class Main extends JFrame {
                // System.out.println(dao.updateRelease(3,2027));
                // System.out.println(dao.updateFsk(3,12));
                 // System.out.println(dao.updateDauer(3,197));
+                //System.out.println(dao.updateGenres(1,"Horror","Science-Fiction"));
+                System.out.println(dao.updateLanguages(1,"Englisch", "Deutsch", "Chinesisch"));
 
 
 

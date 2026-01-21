@@ -18,6 +18,8 @@ public interface FilmeDAO
     boolean updatedreid(int id, boolean dreid);
     boolean updateBeschreibung(int id, String b);
     boolean updateRelease(int id, int jahr);
+    int updateGenres(int id,String... g);
+    int updateLanguages(int id, String... l);
 
 
     boolean checkFsk(int jahr);

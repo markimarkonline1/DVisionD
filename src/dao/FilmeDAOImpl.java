@@ -3,10 +3,7 @@ package dao;
 import db.DbConnect;
 import model.Film;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -245,6 +242,98 @@ public class FilmeDAOImpl implements FilmeDAO
         {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public int updateGenres(int id, String... g)
+    {
+        // ---------- Genres in Ids übersetzen --------------
+        List<String> genreList = List.of(g);
+        ArrayList<Integer> ids = new ArrayList<>();
+
+        for (String genre : genreList)
+        {
+            try (var ps = con.prepareStatement("SELECT id FROM t_genres WHERE Genre = ?"))
+            {
+                ps.setString(1, genre);
+                var rs = ps.executeQuery();
+                if (rs.next())
+                {
+                    ids.add(rs.getInt("id"));
+                } else {
+                    System.out.println("Genre nicht gefunden: " + genre);
+                    return 0;
+                }
+            } catch (SQLException e)
+            { throw new RuntimeException(e); }
+        }
+        // ------- alte Genreeinträge löschen ----------------
+        try (var ps = con.prepareStatement( "DELETE FROM vt_filme_genres WHERE film_id = ?"))
+        {
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        } catch (SQLException e)
+        { throw new RuntimeException(e); }
+
+        //--------- neue Genres eintragen -----------------------
+
+        int inserted = 0;
+        for (int genreId : ids)
+        {
+            try (var ps = con.prepareStatement( "INSERT INTO vt_filme_genres (film_id, genre_id) VALUES (?, ?)"))
+            {
+                ps.setInt(1, id);
+                ps.setInt(2, genreId);
+                inserted += ps.executeUpdate();
+            } catch (SQLException e)
+            { throw new RuntimeException(e); }
+        }
+
+        return inserted;
+    }
+
+    @Override
+    public int updateLanguages(int id, String... l)
+    {
+        List<String> languageList = List.of(l);
+        ArrayList<Integer> ids = new ArrayList<>();
+        // 1. Sprach-Namen → IDs auflösen
+        for (String lang : languageList)
+        {
+            try (var ps = con.prepareStatement("SELECT id FROM t_sprachen WHERE sprache = ?"))
+            {
+                ps.setString(1, lang);
+                var rs = ps.executeQuery();
+                if (rs.next())
+                {
+                    ids.add(rs.getInt("id"));
+                } else
+                {System.out.println("Sprache nicht gefunden: " + lang);
+                    return 0;
+                }
+                rs.close();
+            } catch (SQLException e)
+            { throw new RuntimeException(e); }
+        }
+
+        // 2. Alte Zuordnungen löschen
+        try (var ps = con.prepareStatement( "DELETE FROM vt_filme_sprachen WHERE fk_film = ?"))
+        { ps.setInt(1, id);
+            ps.executeUpdate();
+        } catch (SQLException e)
+        { throw new RuntimeException(e); }
+
+        // 3. Neue Zuordnungen einfügen
+        int inserted = 0;
+        for (int langId : ids)
+        {
+            try (var ps = con.prepareStatement( "INSERT INTO vt_filme_sprachen (fk_film, fk_sprache) VALUES (?, ?)"))
+            { ps.setInt(1, id); ps.setInt(2, langId);
+                inserted += ps.executeUpdate();
+            } catch (SQLException e)
+            { throw new RuntimeException(e); }
+        }
+        return inserted;
     }
 
     @Override
